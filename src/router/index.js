@@ -31,18 +31,31 @@ import Layout from '@/layout'
  * all roles can be accessed
  */
 export const constantRoutes = [
+  // basic
   {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
   },
 
+  // error
   {
     path: '/404',
-    component: () => import('@/views/404'),
+    component: () => import('@/views/error/404'),
+    hidden: true
+  },
+  {
+    path: '/403',
+    component: () => import('@/views/error/403'),
+    hidden: true
+  },
+  {
+    path: '/500',
+    component: () => import('@/views/error/500'),
     hidden: true
   },
 
+  // fix
   {
     path: '/',
     component: Layout,
@@ -61,49 +74,54 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
+  // dynamic
   {
-    path: '/example',
+    path: '/user',
     component: Layout,
-    name: 'Example',
+    name: 'User',
     meta: { title: '用户管控', icon: 'user_line' , roles: ['admin','editor']},
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        // component: () => import('@/views/table/index'),
+        path: 'outer',
+        name: 'Outer',
+        component: () => import('@/views/user/outer/index'),
         meta: { title: '外部用户', icon: 'user_line' },
         children: [
           {
-            path: 'table',
-            name: 'Table',
-            component: () => import('@/views/table/index'),
+            path: 'control',
+            name: 'Control',
+            component: () => import('@/views/user/outer/list'),
             meta: { title: '整体管控', icon: 'user_line' }
           },
           {
-            path: 'table',
-            name: 'Table',
-            component: () => import('@/views/table/index'),
-            meta: { title: '黑名单管理', icon: 'user_line' }
+            path: 'detail/:id',
+            name: 'Detail',
+            component: () => import('@/views/user/outer/detail'),
           }
         ]
       },
       {
-        path: 'tree',
-        name: 'Tree',
-        // component: () => import('@/views/tree/index'),
+        path: 'admin',
+        name: 'Admin',
+        component: () => import('@/views/user/inner/index'),
         meta: { title: '管理员用户', icon: 'admin' , roles: ['admin']},
         children: [
           {
-            path: 'table',
-            name: 'Table',
-            component: () => import('@/views/tree/index'),
+            path: 'control',
+            name: 'Control',
+            component: () => import('@/views/user/inner/list'),
             meta: { title: '管理员控制', icon: 'admin' }
           },
           {
-            path: 'table',
-            name: 'Table',
-            component: () => import('@/views/tree/index'),
+            path: 'power',
+            name: 'ower',
+            component: () => import('@/views/user/inner/power'),
             meta: { title: '权限控制', icon: 'admin' }
+          },
+          {
+            path: 'detail/:id',
+            name: 'Detail',
+            component: () => import('@/views/user/inner/detail'),
           }
         ]
       }
@@ -111,139 +129,101 @@ export const asyncRoutes = [
   },
 
   {
-    path: '/form',
+    path: '/video',
     component: Layout,
-    name: 'Form',
+    name: 'Video',
     meta: { title: '视频管控', icon: 'video' , roles: ['admin','editor']},
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/form/index'),
+        path: 'manage',
+        name: 'Manage',
+        component: () => import('@/views/video/list'),
         meta: { title: '视频管理', icon: 'video' }
       },
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/form/index'),
+        path: 'audit',
+        name: 'Audit',
+        component: () => import('@/views/video/auditlist'),
         meta: { title: '视频审核', icon: 'video' }
+      },
+      {
+        path: 'auditDetail/:id',
+        name: 'AuditDetail',
+        component: () => import('@/views/video/auditdetail')
       }
     ]
   },
 
   {
-    path: '/form',
+    path: '/message',
     component: Layout,
-    name: 'Form',
+    name: 'Message',
     meta: { title: '舆论控制', icon: 'order' , roles: ['admin','editor']},
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/form/index'),
+        path: 'barrage',
+        name: 'Barrage',
+        component: () => import('@/views/message/barrage/list'),
         meta: { title: '弹幕管理', icon: 'order' }
       },
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/form/index'),
+        path: 'barrageDetail/:id',
+        name: 'BarrageDetail',
+        component: () => import('@/views/message/barrage/detail')
+      },
+      {
+        path: 'comment',
+        name: 'Comment',
+        component: () => import('@/views/message/comment/list'),
         meta: { title: '评论管理', icon: 'order' }
+      },
+      {
+        path: 'commentDetail/:id',
+        name: 'CommentDetail',
+        component: () => import('@/views/message/comment/detail')
       }
     ]
   },
 
   {
-    path: '/form',
+    path: '/platform',
     component: Layout,
-    name: 'Form',
+    name: 'Platform',
     meta: { title: '平台配置', icon: 'setting' , roles: ['admin','editor']},
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/form/index'),
+        path: 'index',
+        name: 'Index',
+        component: () => import('@/views/platform/index'),
         meta: { title: '首页配置', icon: 'setting' }
       },
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/form/index'),
+        path: 'category',
+        name: 'Category',
+        component: () => import('@/views/platform/category'),
         meta: { title: '分类配置', icon: 'setting' }
       },
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/form/index'),
+        path: 'router',
+        name: 'Router',
+        component: () => import('@/views/platform/router'),
         meta: { title: '页签配置', icon: 'setting' }
       }
     ]
   },
 
-  // {
-  //   path: '/nested',
-  //   component: Layout,
-  //   redirect: '/nested/menu1',
-  //   name: 'Nested',
-  //   meta: {
-  //     title: 'Nested',
-  //     icon: 'nested'
-  //   },
-  //   children: [
-  //     {
-  //       path: 'menu1',
-  //       component: () => import('@/views/nested/menu1/index'), // Parent router-view
-  //       name: 'Menu1',
-  //       meta: { title: 'Menu1' },
-  //       children: [
-  //         {
-  //           path: 'menu1-1',
-  //           component: () => import('@/views/nested/menu1/menu1-1'),
-  //           name: 'Menu1-1',
-  //           meta: { title: 'Menu1-1' }
-  //         },
-  //         {
-  //           path: 'menu1-2',
-  //           component: () => import('@/views/nested/menu1/menu1-2'),
-  //           name: 'Menu1-2',
-  //           meta: { title: 'Menu1-2' },
-  //           children: [
-  //             {
-  //               path: 'menu1-2-1',
-  //               component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-  //               name: 'Menu1-2-1',
-  //               meta: { title: 'Menu1-2-1' }
-  //             },
-  //             {
-  //               path: 'menu1-2-2',
-  //               component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-  //               name: 'Menu1-2-2',
-  //               meta: { title: 'Menu1-2-2' }
-  //             }
-  //           ]
-  //         },
-  //         {
-  //           path: 'menu1-3',
-  //           component: () => import('@/views/nested/menu1/menu1-3'),
-  //           name: 'Menu1-3',
-  //           meta: { title: 'Menu1-3' }
-  //         }
-  //       ]
-  //     },
-  //     {
-  //       path: 'menu2',
-  //       component: () => import('@/views/nested/menu2/index'),
-  //       meta: { title: 'menu2' }
-  //     }
-  //   ]
-  // },
-
   {
     path: 'external-link',
+    meta: { title: '跳转到…', icon: 'link' , roles: ['admin','editor']},
     component: Layout,
     children: [
       {
         path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: '跳转到主站', icon: 'link' }
+        meta: { title: '主站', icon: 'link' }
+      },
+      {
+        path: 'http://www.baidu.com',
+        meta: {title: '夜莺监控', icon: 'link'}
       }
     ]
   },
