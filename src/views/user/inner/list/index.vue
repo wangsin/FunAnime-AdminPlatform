@@ -67,6 +67,11 @@
         <el-form-item label="邮箱" prop="title">
           <el-input v-model="temp.remark"/>
         </el-form-item>
+        <el-form-item label="角色" prop="title">
+          <el-select v-model="temp.status" class="filter-item" placeholder="Please select">
+            <el-option v-for="item in roleOptions" :key="item" :label="item | roleNameFilter" :value="item" />
+          </el-select>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">
@@ -133,6 +138,13 @@
       },
       typeFilter(type) {
         return calendarTypeKeyValue[type]
+      },
+      roleNameFilter(role) {
+        const roleNameMap = {
+          admin: '超级管理员',
+          editor:'管理员'
+        }
+        return roleNameMap[role]
       }
     },
     data() {
@@ -155,6 +167,7 @@
         calendarTypeOptions,
         sortOptions: [{ label: 'ID Ascending', key: '+id' }, { label: 'ID Descending', key: '-id' }],
         statusOptions: ['published', 'draft', 'deleted'],
+        roleOptions: ['admin','editor'],
         showReviewer: false,
         temp: {
           id: undefined,
@@ -163,7 +176,7 @@
           timestamp: new Date(),
           title: '',
           type: '',
-          status: 'published'
+          status: 'editor'
         },
         dialogFormVisible: false,
         dialogStatus: '',

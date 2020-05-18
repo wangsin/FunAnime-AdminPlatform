@@ -56,7 +56,7 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="80" class-name="small-padding fixed-width">
         <template slot-scope="{row,$index}">
-          <el-button type="primary" size="mini" @click="handleUpdate(row)">
+          <el-button type="primary" size="mini" @click="() => {$router.push('commentDetail/' + row.id)}">
             去查看
           </el-button>
         </template>
